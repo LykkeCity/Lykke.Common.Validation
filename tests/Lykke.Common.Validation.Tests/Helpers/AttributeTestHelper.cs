@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Lykke.Common.Validation.Tests.Helpers
 {
-    internal static class AttributeTestModelHelper
+    internal static class AttributeTestHelper
     {
         public static IList<ValidationResult> Validate(object model)
         {
