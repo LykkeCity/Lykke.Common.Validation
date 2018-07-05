@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData
+namespace Lykke.Common.Validation.Tests.CommonTestData
 {
     internal class NullOrEmptyStringTestData : TheoryData<string>
     {

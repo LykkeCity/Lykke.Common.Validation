@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.PasswordHash.TestData;
 using Lykke.Common.Validation.Tests.PasswordHash.TestModels;
@@ -28,25 +29,8 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Attribute
         }
 
         [Theory]
-        [ClassData(typeof(HashIsNullTestData))]
-        public void Validate_HashIsNull_HaveErrorMessage(string passwordHash)
-        {
-            // Assert
-            var model = new PasswordHashTestModel
-            {
-                PasswordHash = passwordHash
-            };
-
-            // Act
-            var results = AttributeTestHelper.Validate(model);
-
-            // Assert
-            Assert.Equal(ExpectedErrorMessage, results.First().ErrorMessage);
-        }
-
-        [Theory]
-        [ClassData(typeof(HashIsEmptyStringTestData))]
-        public void Validate_HashIsEmptyString_HaveErrorMessage(string passwordHash)
+        [ClassData(typeof(NullOrEmptyStringTestData))]
+        public void Validate_NullOrEmpty_HaveErrorMessage(string passwordHash)
         {
             // Assert
             var model = new PasswordHashTestModel
@@ -76,25 +60,6 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Attribute
 
             // Assert
             Assert.Equal(0, results.Count);
-        }
-
-
-        [Theory]
-        [ClassData(typeof(HashIsNullTestData))]
-        public void Validate_HashIsNullWithCustomMessage_FormatsCustomErrorMessage(string passwordHash)
-        {
-            // Assert
-            const string expectedErrorMessage = "PasswordHash With Custom Error Message.";
-            var model = new PasswordHashCustomMessageTestModel
-            {
-                PasswordHash = passwordHash
-            };
-
-            // Act
-            var results = AttributeTestHelper.Validate(model);
-
-            // Assert
-            Assert.Equal(expectedErrorMessage, results.First().ErrorMessage);
         }
     }
 }

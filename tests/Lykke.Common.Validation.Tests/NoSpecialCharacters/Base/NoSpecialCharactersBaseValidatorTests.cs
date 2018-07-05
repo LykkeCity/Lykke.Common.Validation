@@ -1,4 +1,5 @@
 ﻿using Lykke.Common.Validation.NoSpecialCharacters.Base;
+using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData;
 using Xunit;
 

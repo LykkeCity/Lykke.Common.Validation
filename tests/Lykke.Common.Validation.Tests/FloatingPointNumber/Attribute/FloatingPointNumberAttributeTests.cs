@@ -1,22 +1,22 @@
 ﻿using System.Linq;
 using Lykke.Common.Validation.Tests.CommonTestData;
+using Lykke.Common.Validation.Tests.FloatingPointNumber.TestData;
+using Lykke.Common.Validation.Tests.FloatingPointNumber.TestModels;
 using Lykke.Common.Validation.Tests.Helpers;
-using Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData;
-using Lykke.Common.Validation.Tests.NoSpecialCharacters.TestModels;
 using Xunit;
 
-namespace Lykke.Common.Validation.Tests.NoSpecialCharacters.Attribute
+namespace Lykke.Common.Validation.Tests.FloatingPointNumber.Attribute
 {
-    public class NoSpecialCharactersAttributeTests
+    public class FloatingPointNumberAttributeTests
     {
-        private const string ExpectedErrorMessage = "Input must not contain special characters.";
+        private const string ExpectedErrorMessage = "Input must be a floating point number.";
 
         [Theory]
-        [ClassData(typeof(WithSpecialCharacters))]
-        public void Validate_WithSpecialCharacters_HaveErrorMessage(string input)
+        [ClassData(typeof(InvalidFloatingPointTestData))]
+        public void Validate_InvalidFloatingPoint_HaveErrorMessage(string input)
         {
             // Assert
-            var model = new NoSpecialCharactersTestModel{Input = input};
+            var model = new FloatingPointNumberTestModel {Input = input};
 
             // Act
             var results = AttributeTestHelper.Validate(model);
@@ -30,7 +30,7 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters.Attribute
         public void Validate_NullOrEmpty_HaveErrorMessage(string input)
         {
             // Assert
-            var model = new NoSpecialCharactersTestModel{Input = input};
+            var model = new FloatingPointNumberTestModel {Input = input};
 
             // Act
             var results = AttributeTestHelper.Validate(model);
@@ -40,11 +40,11 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters.Attribute
         }
 
         [Theory]
-        [ClassData(typeof(WithoutSpecialCharacters))]
-        public void Validate_WithoutSpecialCharacters_NotHaveErrorMessage(string input)
+        [ClassData(typeof(ValidFloatingPointTestData))]
+        public void Validate_ValidFloatingPoint_NotHaveErrorMessage(string input)
         {
             // Assert
-            var model = new NoSpecialCharactersTestModel{Input = input};
+            var model = new FloatingPointNumberTestModel {Input = input};
 
             // Act
             var results = AttributeTestHelper.Validate(model);

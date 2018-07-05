@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FluentValidation.TestHelper;
+using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.PasswordHash.TestData;
 using Lykke.Common.Validation.Tests.PasswordHash.TestModels;
 using Xunit;
@@ -33,22 +34,8 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Fluent
         }
 
         [Theory]
-        [ClassData(typeof(HashIsNullTestData))]
-        public void Validate_HashIsNull_HaveErrorMessage(string passwordHash)
-        {
-            // Arrange
-            var invalidImageSignature = new PasswordHashTestModel {PasswordHash = passwordHash};
-
-            // Act
-            var result = _testValidator.Validate(invalidImageSignature);
-
-            // Assert
-            Assert.Equal(ExpectedErrorMessage, result.Errors.First().ErrorMessage);
-        }
-
-        [Theory]
-        [ClassData(typeof(HashIsEmptyStringTestData))]
-        public void Validate_HashIsEmptyString_HaveErrorMessage(string passwordHash)
+        [ClassData(typeof(NullOrEmptyStringTestData))]
+        public void Validate_NullOrEmpty_HaveErrorMessage(string passwordHash)
         {
             // Arrange
             var invalidImageSignature = new PasswordHashTestModel {PasswordHash = passwordHash};

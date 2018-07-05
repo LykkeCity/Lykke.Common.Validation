@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FluentValidation.TestHelper;
+using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData;
 using Lykke.Common.Validation.Tests.NoSpecialCharacters.TestModels;
