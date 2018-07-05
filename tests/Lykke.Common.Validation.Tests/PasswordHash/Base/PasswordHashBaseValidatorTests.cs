@@ -15,7 +15,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Base
         }
 
         [Theory]
-        [ClassData(typeof(HashIsValidSHA256TestData))]
+        [ClassData(typeof(HashIsValidSha256TestData))]
         public void IsValid_HashIsValidSHA256Hash_ReturnTrue(string passwordHash)
         {
             Assert.True(_baseValidator.IsValid(passwordHash));

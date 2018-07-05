@@ -1,5 +1,4 @@
-﻿using Lykke.Common.Validation.PasswordHash;
-using Lykke.Common.Validation.PasswordHash.Attribute;
+﻿using Lykke.Common.Validation.PasswordHash.Attribute;
 
 namespace Lykke.Common.Validation.Tests.PasswordHash.TestModels
 {

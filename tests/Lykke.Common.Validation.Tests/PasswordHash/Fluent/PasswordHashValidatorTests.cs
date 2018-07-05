@@ -48,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Fluent
         }
 
         [Theory]
-        [ClassData(typeof(HashIsValidSHA256TestData))]
+        [ClassData(typeof(HashIsValidSha256TestData))]
         public void Validate_IsValidSHA256Hash_NotHaveErrorMessage(string passwordHash)
         {
             // Assert

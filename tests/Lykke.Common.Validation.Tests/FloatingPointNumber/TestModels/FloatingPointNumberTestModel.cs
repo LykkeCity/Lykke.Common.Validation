@@ -4,6 +4,7 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber.TestModels
 {
     internal class FloatingPointNumberTestModel
     {
-        [FloatingPointNumber] public string Input { get; set; }
+        [FloatingPointNumber] 
+        public string Input { get; set; }
     }
 }

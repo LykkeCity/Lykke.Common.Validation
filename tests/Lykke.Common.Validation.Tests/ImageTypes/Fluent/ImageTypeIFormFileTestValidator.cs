@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Lykke.Common.Validation.ImageTypes;
 using Lykke.Common.Validation.ImageTypes.Fluent;
 using Lykke.Common.Validation.Tests.ImageTypes.TestModels;
 
