@@ -16,7 +16,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes.Attribute
         public void Validate_FileHasInvalidSignature_HaveInvalidSignatureErrorMessage(
             ImageTypeTestDataDto dto)
         {
-            // Assert
+            // Arrange
             var model = new ImageTypeIFormFileTestModel
             {
                 File = dto.File
@@ -37,7 +37,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes.Attribute
         public void Validate_FileIsNull_HaveValueNotIFormFileErrorMessage(
             ImageTypeTestDataDto dto)
         {
-            // Assert
+            // Arrange
             var model = new ImageTypeIFormFileTestModel
             {
                 File = dto.File
@@ -58,7 +58,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes.Attribute
         public void Validate_FileExtensionIsInvalid_HaveInvalidExtensionErrorMessage(
             ImageTypeTestDataDto dto)
         {
-            // Assert
+            // Arrange
             var model = new ImageTypeIFormFileTestModel
             {
                 File = dto.File
@@ -79,7 +79,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes.Attribute
         public void Validate_FileIsNullWithCustomMessage_FormatsCustomErrorMessage(
             ImageTypeTestDataDto dto)
         {
-            // Assert
+            // Arrange
             const string expectedErrorMessage = "File is not a .jpg image.";
 
             var model = new ImageTypeIFormFileCustomMessageTestModel
