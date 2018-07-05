@@ -1,23 +1,24 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using Lykke.Common.Validation.PasswordHash.Base;
+using Lykke.Common.Validation.NoSpecialCharacters.Base;
 
-namespace Lykke.Common.Validation.PasswordHash.Attribute
+namespace Lykke.Common.Validation.NoSpecialCharacters.Attribute
 {
     /// <summary>
-    ///     Validates string is a valid SHA-256 hash.
+    ///     Validates string does not contain special characters.
     ///     Use only on <see cref="string" />.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class PasswordHashAttribute : ValidationAttribute
+    public class NoSpecialCharactersAttribute : ValidationAttribute
     {
-        private readonly string _defaultErrorMessage = "{0} must be valid SHA-256 hash.";
-        private readonly PasswordHashBaseValidator _passwordHashBaseValidator;
+        private readonly string _defaultErrorMessage = "{0} must not contain special characters.";
 
-        public PasswordHashAttribute()
+        private readonly NoSpecialCharactersBaseValidator _baseValidator;
+
+        public NoSpecialCharactersAttribute()
         {
-            _passwordHashBaseValidator = new PasswordHashBaseValidator();
+            _baseValidator = new NoSpecialCharactersBaseValidator();
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
@@ -26,7 +27,7 @@ namespace Lykke.Common.Validation.PasswordHash.Attribute
 
             var errorResult = new ValidationResult(FormatErrorMessage(displayName));
 
-            return _passwordHashBaseValidator.IsValid(value as string)
+            return _baseValidator.IsValid(value as string)
                 ? ValidationResult.Success
                 : errorResult;
         }

@@ -29,7 +29,6 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Fluent
             var result = _testValidator.Validate(invalidImageSignature);
 
             // Assert
-            Assert.False(result.IsValid);
             Assert.Equal(ExpectedErrorMessage, result.Errors.First().ErrorMessage);
         }
 
@@ -44,7 +43,6 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Fluent
             var result = _testValidator.Validate(invalidImageSignature);
 
             // Assert
-            Assert.False(result.IsValid);
             Assert.Equal(ExpectedErrorMessage, result.Errors.First().ErrorMessage);
         }
 
@@ -59,7 +57,6 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Fluent
             var result = _testValidator.Validate(invalidImageSignature);
 
             // Assert
-            Assert.False(result.IsValid);
             Assert.Equal(ExpectedErrorMessage, result.Errors.First().ErrorMessage);
         }
 

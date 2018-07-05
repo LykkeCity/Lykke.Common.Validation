@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Lykke.Common.Validation.PasswordHash.Attribute;
 using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.PasswordHash.TestData;
 using Lykke.Common.Validation.Tests.PasswordHash.TestModels;
@@ -10,7 +9,6 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Attribute
     public class PasswordHashAttributeTests
     {
         private const string ExpectedErrorMessage = "PasswordHash must be valid SHA-256 hash.";
-
 
         [Theory]
         [ClassData(typeof(HashIsInvalidTestData))]

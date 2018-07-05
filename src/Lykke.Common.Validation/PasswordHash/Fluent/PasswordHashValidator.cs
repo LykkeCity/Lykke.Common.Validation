@@ -18,10 +18,7 @@ namespace Lykke.Common.Validation.PasswordHash.Fluent
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            if (!(context.PropertyValue is string passwordHash) || string.IsNullOrWhiteSpace(passwordHash))
-                return false;
-
-            return _passwordHashBaseValidator.IsValid(passwordHash);
+            return _passwordHashBaseValidator.IsValid(context.PropertyValue as string);
         }
     }
 }
