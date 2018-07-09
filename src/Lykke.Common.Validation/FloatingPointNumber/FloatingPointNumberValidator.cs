@@ -2,8 +2,6 @@
 {
     /// <summary>
     ///     Validates string is a floating point number.
-    ///     This class contains common logic to use inside Lykke.Common.Validation package only.
-    ///     If you need new Validator for your needs, create a wrapper around this class and use it.
     /// </summary>
     internal class FloatingPointNumberValidator
     {
@@ -12,7 +10,8 @@
         /// </summary>
         /// <param name="input">String to validate.</param>
         /// <returns>
-        ///     True if <paramref name="input" /> can be converted to a floating point number.
+        ///     If string is a floating point number, 
+        ///     <see cref="FloatingPointNumberValidationResult"/> does not contain any <see cref="FloatingPointNumberErrorCode"/> errors.
         /// </returns>
         public FloatingPointNumberValidationResult Validate(string input)
         {

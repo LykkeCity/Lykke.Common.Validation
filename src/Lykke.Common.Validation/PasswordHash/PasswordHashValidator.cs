@@ -4,7 +4,6 @@ namespace Lykke.Common.Validation.PasswordHash
 {
     /// <summary>
     ///     Validates string is a valid SHA-256 hash.
-    ///     Use only on <see cref="string" />.
     /// </summary>
     public class PasswordHashValidator
     {
@@ -15,7 +14,11 @@ namespace Lykke.Common.Validation.PasswordHash
         ///     Validates string is a valid SHA-256 hash.
         /// </summary>
         /// <param name="input">String to validate.</param>
-        /// <returns>True if <paramref name="input" /> is a valid SHA-256 hash.</returns>
+        /// <returns>
+        ///     If <paramref name="input" /> is a valid SHA-256 hash.
+        ///     <see cref="PasswordHashValidationResult" /> does not contain any <see cref="PasswordHashErrorCode" />
+        ///     errors.
+        /// </returns>
         public PasswordHashValidationResult Validate(string input)
         {
             if (string.IsNullOrWhiteSpace(input))

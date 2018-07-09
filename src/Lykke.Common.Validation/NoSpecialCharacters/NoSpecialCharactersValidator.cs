@@ -5,8 +5,6 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
     /// <summary>
     ///     Validates string does not contain special characters:
     ///     !@#$%^&amp;*()-_=+:;.,"'\/?&lt;&gt;|~[]{}`
-    ///     This class contains common logic to use inside Lykke.Common.Validation package only.
-    ///     If you need new Validator for your needs, create a wrapper around this class and use it.
     /// </summary>
     internal class NoSpecialCharactersValidator
     {
@@ -22,7 +20,9 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
         /// </summary>
         /// <param name="input">String to validate.</param>
         /// <returns>
-        ///     True if <paramref name="input" /> does not contain special characters.
+        ///     If <paramref name="input" /> does not contain special characters.
+        ///     <see cref="NoSpecialCharactersValidationResult" /> does not contain any <see cref="NoSpecialCharactersErrorCode" />
+        ///     errors.
         /// </returns>
         public NoSpecialCharactersValidationResult Validate(string input)
         {

@@ -5,12 +5,14 @@ using System.Linq;
 namespace Lykke.Common.Validation.ImageTypes
 {
     /// <summary>
-    ///     This class contains common logic to use inside Lykke.Common.Validation package only.
-    ///     If you need new Validator for your needs, create a wrapper around this class and use it.
-    ///     Base class to perform image type validation.
+    ///     Validates file is an image.
     /// </summary>
     public class ImageTypeValidator
     {
+        /// <summary>
+        ///     Allowed file extensins, configured for validator.
+        ///     It is a string, containing extensions, separated by comma.
+        /// </summary>
         public string AllowedExtensions { get; }
 
         private static readonly IEnumerable<IImageType> DefaultImageTypesList = new IImageType[]
@@ -53,18 +55,19 @@ namespace Lykke.Common.Validation.ImageTypes
         /// <param name="fileName">File name.</param>
         /// <param name="fileStream">File stream data.</param>
         /// <returns>
-        /// True if <paramref name="fileName"/> extension is in valid extension provided to constructor.
-        /// And <paramref name="fileStream"/> first bytes match valid bytes for provided file type, based on extension.
+        ///     If <paramref name="fileName" /> extension is in valid extension provided to constructor.
+        ///     And <paramref name="fileStream" /> first bytes match valid bytes for provided file type, based on extension.
+        ///     <see cref="ImageTypeValidationResult" /> does not contain any <see cref="ImageTypeErrorCode" /> errors.
         /// </returns>
         public ImageTypeValidationResult Validate(string fileName, Stream fileStream)
         {
             if (string.IsNullOrWhiteSpace(fileName))
-                return new ImageTypeValidationResult(ImageTypeErrorCode.InvalidFileName);
+                return new ImageTypeValidationResult(ImageTypeErrorCode.FileNameNullOrWhitespace);
 
             var extension = GetExtension(fileName);
 
             if (string.IsNullOrEmpty(extension) || !_imageTypes.TryGetValue(extension, out var imageType))
-                return new ImageTypeValidationResult(ImageTypeErrorCode.InvalidExtension);
+                return new ImageTypeValidationResult(ImageTypeErrorCode.FileExtensionEmptyOrInvalid);
 
             if (fileStream == null || fileStream == Stream.Null)
                 return new ImageTypeValidationResult(ImageTypeErrorCode.FileStreamIsNull);

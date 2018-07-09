@@ -4,7 +4,7 @@ using Lykke.Common.Validation.ImageTypes;
 using Lykke.Common.Validation.Tests.ImageTypes.TestData;
 using Xunit;
 
-namespace Lykke.Common.Validation.Tests.ImageTypes.Base
+namespace Lykke.Common.Validation.Tests.ImageTypes
 {
     public class ImageTypeValidatorTests
     {
@@ -39,7 +39,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes.Base
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.InvalidExtension, result.ErrorCodes.First());
+            Assert.Equal(ImageTypeErrorCode.FileExtensionEmptyOrInvalid, result.ErrorCodes.First());
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes.Base
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.InvalidFileName, result.ErrorCodes.First());
+            Assert.Equal(ImageTypeErrorCode.FileNameNullOrWhitespace, result.ErrorCodes.First());
         }
 
         [Fact]

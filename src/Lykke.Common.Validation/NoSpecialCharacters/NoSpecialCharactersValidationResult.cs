@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-
-namespace Lykke.Common.Validation.NoSpecialCharacters
+﻿namespace Lykke.Common.Validation.NoSpecialCharacters
 {
+    /// <summary>
+    ///     <see cref="NoSpecialCharactersValidator" /> validation result.
+    /// </summary>
     public class NoSpecialCharactersValidationResult : ValidationResult<NoSpecialCharactersErrorCode>
     {
+        /// <inheritdoc />
         public NoSpecialCharactersValidationResult()
         {
         }
 
+        /// <inheritdoc />
         public NoSpecialCharactersValidationResult(NoSpecialCharactersErrorCode errorCode) : base(errorCode)
-        {
-        }
-
-        protected NoSpecialCharactersValidationResult(IEnumerable<NoSpecialCharactersErrorCode> errorCodes) :
-            base(errorCodes)
         {
         }
     }

@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-
-namespace Lykke.Common.Validation.PasswordHash
+﻿namespace Lykke.Common.Validation.PasswordHash
 {
+    /// <summary>
+    ///     <see cref="PasswordHashValidator" /> validation result.
+    /// </summary>
     public class PasswordHashValidationResult : ValidationResult<PasswordHashErrorCode>
     {
+        /// <inheritdoc />
         public PasswordHashValidationResult()
         {
         }
 
+        /// <inheritdoc />
         public PasswordHashValidationResult(PasswordHashErrorCode errorCode) : base(errorCode)
-        {
-        }
-
-        protected PasswordHashValidationResult(IEnumerable<PasswordHashErrorCode> errorCodes) : base(errorCodes)
         {
         }
     }
