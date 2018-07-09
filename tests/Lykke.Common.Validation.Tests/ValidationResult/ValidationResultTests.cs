@@ -1,11 +1,12 @@
 ﻿using System;
-using Xunit;
+using NUnit.Framework;
+
 
 namespace Lykke.Common.Validation.Tests.ValidationResult
 {
     public class ValidationResultTests
     {
-        [Fact]
+        [Test]
         public void DefaultConstructor_ValidEnumType_NotThrow()
         {
             // Assert
@@ -13,7 +14,7 @@ namespace Lykke.Common.Validation.Tests.ValidationResult
             var validationResult = new TestValidationResult();
         }
 
-        [Fact]
+        [Test]
         public void OneErrorConstructor_ValidEnumType_NotThrow()
         {
             // Assert
@@ -21,7 +22,7 @@ namespace Lykke.Common.Validation.Tests.ValidationResult
             var validationResult = new TestValidationResult(TestErrorCode.TestError1);
         }
 
-        [Fact]
+        [Test]
         public void ErrorListConstructor_ValidEnumType_NotThrow()
         {
             // Assert
@@ -29,21 +30,21 @@ namespace Lykke.Common.Validation.Tests.ValidationResult
             var validationResult = new TestValidationResult(new[] {TestErrorCode.TestError1, TestErrorCode.TestError2});
         }
 
-        [Fact]
+        [Test]
         public void DefaultConstructor_InvalidEnumType_ThrowsArgumentException()
         {
             // Assert
             Assert.Throws<ArgumentException>(() => new InvalidTestValidationResult());
         }
 
-        [Fact]
+        [Test]
         public void OneErrorConstructor_InvalidEnumType_ThrowsArgumentException()
         {
             // Assert
             Assert.Throws<ArgumentException>(() => new InvalidTestValidationResult(new InvalidEnum()));
         }
 
-        [Fact]
+        [Test]
         public void ErrorListConstructor_InvalidEnumType_ThrowsArgumentException()
         {
             // Assert

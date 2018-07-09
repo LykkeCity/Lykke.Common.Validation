@@ -2,7 +2,8 @@
 using Lykke.Common.Validation.PasswordHash;
 using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.PasswordHash.TestData;
-using Xunit;
+using NUnit.Framework;
+
 
 namespace Lykke.Common.Validation.Tests.PasswordHash
 {
@@ -15,8 +16,8 @@ namespace Lykke.Common.Validation.Tests.PasswordHash
             _validator = new PasswordHashValidator();
         }
 
-        [Theory]
-        [ClassData(typeof(HashIsValidSha256TestData))]
+        
+        [TestCaseSource(typeof(HashIsValidSha256TestData))]
         public void Validate_HashIsValidSHA256Hash_ReturnTrue(string passwordHash)
         {
             // Act
@@ -26,8 +27,8 @@ namespace Lykke.Common.Validation.Tests.PasswordHash
             Assert.True(result.IsValid);
         }
 
-        [Theory]
-        [ClassData(typeof(HashIsInvalidTestData))]
+        
+        [TestCaseSource(typeof(HashIsInvalidTestData))]
         public void Validate_HashIsNotSHA256_ReturnFalse(string passwordHash)
         {
             // Act
@@ -35,11 +36,11 @@ namespace Lykke.Common.Validation.Tests.PasswordHash
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(PasswordHashErrorCode.NotSha256, result.ErrorCodes.First());
+            Assert.AreEqual(PasswordHashErrorCode.NotSha256, result.ErrorCodes.First());
         }
 
-        [Theory]
-        [ClassData(typeof(NullOrEmptyStringTestData))]
+        
+        [TestCaseSource(typeof(NullOrEmptyStringTestData))]
         public void Validate_NullOrEmpty_ReturnFalse(string passwordHash)
         {
             // Act
@@ -47,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(PasswordHashErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual(PasswordHashErrorCode.NullOrEmpty, result.ErrorCodes.First());
         }
     }
 }

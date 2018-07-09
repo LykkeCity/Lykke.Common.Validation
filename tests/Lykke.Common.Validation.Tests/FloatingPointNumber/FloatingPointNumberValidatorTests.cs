@@ -2,7 +2,8 @@
 using Lykke.Common.Validation.FloatingPointNumber;
 using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.FloatingPointNumber.TestData;
-using Xunit;
+using NUnit.Framework;
+
 
 namespace Lykke.Common.Validation.Tests.FloatingPointNumber
 {
@@ -15,8 +16,8 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber
             _validator = new FloatingPointNumberValidator();
         }
 
-        [Theory]
-        [ClassData(typeof(ValidFloatingPointTestData))]
+        
+        [TestCaseSource(typeof(ValidFloatingPointTestData))]
         public void Validate_ValidFloatingPoint_ReturnTrue(string input)
         {
             // Act
@@ -26,8 +27,8 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber
             Assert.True(result.IsValid);
         }
 
-        [Theory]
-        [ClassData(typeof(InvalidFloatingPointTestData))]
+        
+        [TestCaseSource(typeof(InvalidFloatingPointTestData))]
         public void Validate_InvalidFloatingPoint_ReturnFalse(string input)
         {
             // Act
@@ -35,11 +36,11 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(FloatingPointNumberErrorCode.NotFloaringPoint, result.ErrorCodes.First());
+            Assert.AreEqual(FloatingPointNumberErrorCode.NotFloaringPoint, result.ErrorCodes.First());
         }
 
-        [Theory]
-        [ClassData(typeof(NullOrEmptyStringTestData))]
+        
+        [TestCaseSource(typeof(NullOrEmptyStringTestData))]
         public void Validate_NullOrEmpty_ReturnFalse(string input)
         {
             // Act
@@ -47,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(FloatingPointNumberErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual(FloatingPointNumberErrorCode.NullOrEmpty, result.ErrorCodes.First());
         }
     }
 }

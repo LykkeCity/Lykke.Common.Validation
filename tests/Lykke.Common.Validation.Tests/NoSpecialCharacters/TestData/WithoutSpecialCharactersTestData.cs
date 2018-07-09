@@ -1,22 +1,28 @@
-﻿using Xunit;
+﻿using System.Collections;
+using System.Linq;
 
 namespace Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData
 {
-    internal class WithoutSpecialCharactersTestData : TheoryData<string>
+    internal class WithoutSpecialCharactersTestData : IEnumerable
     {
-        public WithoutSpecialCharactersTestData()
+        private readonly string[] _data =
         {
-            Add("Name Surname");
-            Add("Имя Фамилия");
-            Add("東海林賢蔵");
-            Add("Kāneohe");
-            Add("Kißlegg Baden Württemberg ");
-            Add("Trøndelag");
-            Add("บริษัท ปตท");
-            Add("จำกัด");
-            Add("삼성전자");
-            Add("中国工商银行股份有限公司");
-            Add("トヨタ自動車株式会社");
+            "Name Surname",
+            "Имя Фамилия",
+            "東海林賢蔵",
+            "Kāneohe",
+            "Kißlegg Baden Württemberg ",
+            "Trøndelag",
+            "บริษัท ปตท",
+            "จำกัด",
+            "삼성전자",
+            "中国工商银行股份有限公司",
+            "トヨタ自動車株式会社"
+        };
+
+        public IEnumerator GetEnumerator()
+        {
+            return _data.Select(s => new object[] {s}).GetEnumerator();
         }
     }
 }

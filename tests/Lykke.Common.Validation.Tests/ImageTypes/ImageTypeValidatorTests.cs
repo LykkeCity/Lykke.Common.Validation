@@ -2,7 +2,8 @@
 using System.Linq;
 using Lykke.Common.Validation.ImageTypes;
 using Lykke.Common.Validation.Tests.ImageTypes.TestData;
-using Xunit;
+using NUnit.Framework;
+
 
 namespace Lykke.Common.Validation.Tests.ImageTypes
 {
@@ -15,8 +16,8 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
         private readonly ImageTypeValidator _validator;
 
-        [Theory]
-        [ClassData(typeof(ValidFileTestData))]
+        
+        [TestCaseSource(typeof(ValidFileTestData))]
         public void Validate_ValidFile_ReturnTrue(
             ImageTypeTestDataDto dto)
         {
@@ -30,8 +31,8 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
             dto.Stream?.Dispose();
         }
 
-        [Theory]
-        [ClassData(typeof(ValidationContextTestData))]
+        
+        [TestCaseSource(typeof(ValidationContextTestData))]
         public void Validate_InvalidResult_HasAllowedExtensionsValidationContext(string[] allowedExtensions)
         {
             // Arrange
@@ -42,11 +43,11 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             var expected = string.Join(", ", allowedExtensions);
-            Assert.Equal(expected, result.AllowedExtensions);
+            Assert.AreEqual(expected, result.AllowedExtensions);
         }
 
-        [Theory]
-        [ClassData(typeof(InvalidFileSignatureTestData))]
+        
+        [TestCaseSource(typeof(InvalidFileSignatureTestData))]
         public void Validate_FileHasInvalidSignature_ReturnFalse(
             ImageTypeTestDataDto dto)
         {
@@ -55,13 +56,13 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.InvalidHexSignature, result.ErrorCodes.First());
+            Assert.AreEqual(ImageTypeErrorCode.InvalidHexSignature, result.ErrorCodes.First());
 
             // Dispose
             dto.Stream?.Dispose();
         }
 
-        [Fact]
+        [Test]
         // TODO: Add check for bull or empty file name
         public void Validate_FileExtensionIsInvalid_ReturnFalse()
         {
@@ -70,10 +71,10 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.FileExtensionEmptyOrInvalid, result.ErrorCodes.First());
+            Assert.AreEqual(ImageTypeErrorCode.FileExtensionEmptyOrInvalid, result.ErrorCodes.First());
         }
 
-        [Fact]
+        [Test]
         public void Validate_FileNameIsNullOrEmpty_ReturnFalse()
         {
             // Act
@@ -81,10 +82,10 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.FileNameNullOrWhitespace, result.ErrorCodes.First());
+            Assert.AreEqual(ImageTypeErrorCode.FileNameNullOrWhitespace, result.ErrorCodes.First());
         }
 
-        [Fact]
+        [Test]
         // TODO: Add check for FileStream null
         public void Validate_FileStreamIsNull_ReturnFalse()
         {
@@ -93,10 +94,10 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.FileStreamIsNull, result.ErrorCodes.First());
+            Assert.AreEqual(ImageTypeErrorCode.FileStreamIsNull, result.ErrorCodes.First());
         }
 
-        [Fact]
+        [Test]
         // TODO: Add check for FileStream null
         public void Validate_FileStreamIsTooShort_ReturnFalse()
         {
@@ -108,7 +109,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.FileStreamIsTooShort, result.ErrorCodes.First());
+            Assert.AreEqual(ImageTypeErrorCode.FileStreamIsTooShort, result.ErrorCodes.First());
         }
     }
 }

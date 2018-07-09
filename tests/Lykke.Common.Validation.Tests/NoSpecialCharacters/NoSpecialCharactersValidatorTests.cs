@@ -2,7 +2,8 @@
 using Lykke.Common.Validation.NoSpecialCharacters;
 using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData;
-using Xunit;
+using NUnit.Framework;
+
 
 namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
 {
@@ -15,8 +16,8 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
             _validator = new NoSpecialCharactersValidator();
         }
 
-        [Theory]
-        [ClassData(typeof(WithoutSpecialCharactersTestData))]
+        
+        [TestCaseSource(typeof(WithoutSpecialCharactersTestData))]
         public void Validate_WithoutSpecialCharacters_ReturnTrue(string input)
         {
             // Act
@@ -26,8 +27,8 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
             Assert.True(result.IsValid);
         }
 
-        [Theory]
-        [ClassData(typeof(WithSpecialCharactersTestData))]
+        
+        [TestCaseSource(typeof(WithSpecialCharactersTestData))]
         public void Validate_WithSpecialCharacters_ReturnFalse(string input)
         {
             // Act
@@ -35,11 +36,11 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(NoSpecialCharactersErrorCode.ContainsSpecialCharacters, result.ErrorCodes.First());
+            Assert.AreEqual(NoSpecialCharactersErrorCode.ContainsSpecialCharacters, result.ErrorCodes.First());
         }
 
-        [Theory]
-        [ClassData(typeof(NullOrEmptyStringTestData))]
+        
+        [TestCaseSource(typeof(NullOrEmptyStringTestData))]
         public void Validate_NullOrEmpty_ReturnFalse(string input)
         {
             // Act
@@ -47,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.Equal(NoSpecialCharactersErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual(NoSpecialCharactersErrorCode.NullOrEmpty, result.ErrorCodes.First());
         }
     }
 }

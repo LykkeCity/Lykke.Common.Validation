@@ -1,21 +1,21 @@
-﻿using MoreLinq;
-using Xunit;
+﻿using System.Collections;
 
 namespace Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData
 {
-    internal class WithSpecialCharactersTestData : TheoryData<string>
+    internal class WithSpecialCharactersTestData : IEnumerable
     {
-        private static readonly char[] RestrictedCharacters = 
+        private static readonly char[] RestrictedCharacters =
         {
             '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '_', '=', ':', ';', '.', ',', '"', '\'', '\\',
             '/', '|', '?', '<', '>', '~', '[', ']', '{', '}', '`'
         };
 
-        public WithSpecialCharactersTestData()
+        public IEnumerator GetEnumerator()
         {
-            RestrictedCharacters.ForEach(c => Add(c.ToString()));
-            Add("SELECT * FROM Production.Product ORDER BY Name ASC;");
-            Add("<script>alert(\'Injected!\');</script>");
+            foreach (var s in RestrictedCharacters) yield return new object[] {s.ToString()};
+
+            yield return new object[] {"SELECT * FROM Production.Product ORDER BY Name ASC;"};
+            yield return new object[] {"<script>alert(\'Injected!\');</script>"};
         }
     }
 }

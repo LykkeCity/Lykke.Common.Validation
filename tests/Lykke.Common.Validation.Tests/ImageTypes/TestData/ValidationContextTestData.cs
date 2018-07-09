@@ -1,14 +1,20 @@
-﻿using Xunit;
+﻿using System.Collections;
+using System.Linq;
 
 namespace Lykke.Common.Validation.Tests.ImageTypes.TestData
 {
-    internal class ValidationContextTestData : TheoryData<string[]>
+    internal class ValidationContextTestData : IEnumerable
     {
-        public ValidationContextTestData()
+        private readonly string[][] _data =
         {
-            Add(new[] {".jpg"});
-            Add(new[] {".png"});
-            Add(new[] {".bmp", ".jpeg", ".gif"});
+            new[] {".jpg"},
+            new[] {".png"},
+            new[] {".bmp", ".jpeg", ".gif"}
+        };
+
+        public IEnumerator GetEnumerator()
+        {
+            return _data.Select(s => new object[] {s}).GetEnumerator();
         }
     }
 }
