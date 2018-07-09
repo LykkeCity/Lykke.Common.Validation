@@ -5,6 +5,11 @@
     /// </summary>
     public class ImageTypeValidationResult : ValidationResult<ImageTypeErrorCode>
     {
+        /// <summary>
+        /// List of file allowed extensions.
+        /// </summary>
+        public string AllowedExtensions { get; internal set; }
+
         /// <inheritdoc />
         public ImageTypeValidationResult()
         {

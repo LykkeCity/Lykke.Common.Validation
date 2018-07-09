@@ -17,7 +17,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
         [Theory]
         [ClassData(typeof(ValidFileTestData))]
-        public void Validate_FileIsNull_ReturnTrue(
+        public void Validate_ValidFile_ReturnTrue(
             ImageTypeTestDataDto dto)
         {
             // Act
@@ -25,6 +25,37 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.True(result.IsValid);
+
+            // Dispose
+            dto.Stream?.Dispose();
+        }
+
+        [Theory]
+        [ClassData(typeof(ValidationContextTestData))]
+        public void Validate_InvalidResult_HasAllowedExtensionsValidationContext(string[] allowedExtensions)
+        {
+            // Arrange
+            var validator = new ImageTypeValidator(allowedExtensions);
+
+            // Act
+            var result = validator.Validate("", null);
+
+            // Assert
+            var expected = string.Join(", ", allowedExtensions);
+            Assert.Equal(expected, result.AllowedExtensions);
+        }
+
+        [Theory]
+        [ClassData(typeof(InvalidFileSignatureTestData))]
+        public void Validate_FileHasInvalidSignature_ReturnFalse(
+            ImageTypeTestDataDto dto)
+        {
+            // Act
+            var result = _validator.Validate(dto.File.FileName, dto.Stream);
+
+            // Assert
+            Assert.False(result.IsValid);
+            Assert.Equal(ImageTypeErrorCode.InvalidHexSignature, result.ErrorCodes.First());
 
             // Dispose
             dto.Stream?.Dispose();
@@ -78,22 +109,6 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
             // Assert
             Assert.False(result.IsValid);
             Assert.Equal(ImageTypeErrorCode.FileStreamIsTooShort, result.ErrorCodes.First());
-        }
-
-        [Theory]
-        [ClassData(typeof(InvalidFileSignatureTestData))]
-        public void Validate_FileHasInvalidSignature_ReturnFalse(
-            ImageTypeTestDataDto dto)
-        {
-            // Act
-            var result = _validator.Validate(dto.File.FileName, dto.Stream);
-
-            // Assert
-            Assert.False(result.IsValid);
-            Assert.Equal(ImageTypeErrorCode.InvalidHexSignature, result.ErrorCodes.First());
-
-            // Dispose
-            dto.Stream?.Dispose();
         }
     }
 }

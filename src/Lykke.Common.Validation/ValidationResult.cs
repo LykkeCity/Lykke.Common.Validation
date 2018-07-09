@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MoreLinq;
 
 namespace Lykke.Common.Validation
 {
@@ -9,13 +10,13 @@ namespace Lykke.Common.Validation
     ///     Base class for validation result.
     /// </summary>
     /// <typeparam name="TEnum">Should be enum. Used for error codes.</typeparam>
-    /// <exception cref="ArgumentException">If <typeparamref name="TEnum" /> is not Enum.</exception>
+    /// <exception cref="ArgumentException">Thrown if <typeparamref name="TEnum" /> is not Enum.</exception>
     public abstract class ValidationResult<TEnum>
         where TEnum : struct, IConvertible, IComparable, IFormattable
     {
         private readonly List<TEnum> _errorCodes = new List<TEnum>();
 
-        private readonly ArgumentException _argumentException = new ArgumentException("TEnum must be an enum.");
+        private readonly ArgumentException _notEnumArgumentException = new ArgumentException("TEnum must be an enum.");
 
         /// <summary>
         ///     Indicates if validation is successful.
@@ -31,7 +32,7 @@ namespace Lykke.Common.Validation
         /// <summary>
         ///     Create successfull result.
         /// </summary>
-        /// <exception cref="ArgumentException">If <typeparamref name="TEnum" /> is not Enum.</exception>
+        /// <exception cref="ArgumentException">Thrown if <typeparamref name="TEnum" /> is not Enum.</exception>
         protected ValidationResult()
         {
             IsEnumType();
@@ -40,28 +41,42 @@ namespace Lykke.Common.Validation
         /// <summary>
         ///     Create result with error.
         /// </summary>
-        /// <exception cref="ArgumentException">If <typeparamref name="TEnum" /> is not Enum.</exception>
-        protected ValidationResult(TEnum errorCode)
+        /// <exception cref="ArgumentException">Thrown if <typeparamref name="TEnum" /> is not Enum.</exception>
+        protected ValidationResult(TEnum errorCode) : this()
         {
-            IsEnumType();
-
-            _errorCodes.Add(errorCode);
+            Add(errorCode);
         }
 
         /// <summary>
         ///     Create result with error list.
         /// </summary>
-        /// <exception cref="ArgumentException">If <typeparamref name="TEnum" /> is not Enum.</exception>
-        protected ValidationResult(IEnumerable<TEnum> errorCodes)
+        /// <exception cref="ArgumentException">Thrown if <typeparamref name="TEnum" /> is not Enum.</exception>
+        protected ValidationResult(IEnumerable<TEnum> errorCodes): this()
         {
-            IsEnumType();
+            errorCodes.ForEach(Add);
+        }
 
-            _errorCodes.AddRange(errorCodes);
+        /// <summary>
+        ///     Add error code.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if <typeparamref name="TEnum" /> is not Enum.</exception>
+        public void Add(TEnum errorCode)
+        {
+            IsDefined(errorCode);
+            _errorCodes.Add(errorCode);
         }
 
         private void IsEnumType()
         {
-            if (!typeof(TEnum).IsEnum) throw _argumentException;
+            if (!typeof(TEnum).IsEnum) 
+                throw _notEnumArgumentException;
+        }
+
+        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
+        private void IsDefined(TEnum errorCode)
+        {
+            if (!Enum.IsDefined(typeof(TEnum), errorCode))
+                throw _notEnumArgumentException;
         }
     }
 }

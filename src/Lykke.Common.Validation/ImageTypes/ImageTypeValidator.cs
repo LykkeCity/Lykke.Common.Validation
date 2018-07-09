@@ -61,31 +61,49 @@ namespace Lykke.Common.Validation.ImageTypes
         /// </returns>
         public ImageTypeValidationResult Validate(string fileName, Stream fileStream)
         {
+            var validationResult = new ImageTypeValidationResult();
+            validationResult.AllowedExtensions = AllowedExtensions;
+
             if (string.IsNullOrWhiteSpace(fileName))
-                return new ImageTypeValidationResult(ImageTypeErrorCode.FileNameNullOrWhitespace);
+            {
+                validationResult.Add(ImageTypeErrorCode.FileNameNullOrWhitespace);
+                return validationResult;
+            }
 
             var extension = GetExtension(fileName);
 
             if (string.IsNullOrEmpty(extension) || !_imageTypes.TryGetValue(extension, out var imageType))
-                return new ImageTypeValidationResult(ImageTypeErrorCode.FileExtensionEmptyOrInvalid);
+            {
+                validationResult.Add(ImageTypeErrorCode.FileExtensionEmptyOrInvalid);
+                return validationResult;
+            }
 
             if (fileStream == null || fileStream == Stream.Null)
-                return new ImageTypeValidationResult(ImageTypeErrorCode.FileStreamIsNull);
+            {
+                validationResult.Add(ImageTypeErrorCode.FileStreamIsNull);
+                return validationResult;
+            }
 
             using (fileStream)
             {
                 var longestSignature = imageType.HexSignatures.OrderByDescending(x => x.Length).First();
 
                 if (fileStream.Length < longestSignature.Length)
-                    return new ImageTypeValidationResult(ImageTypeErrorCode.FileStreamIsTooShort);
+                {
+                    validationResult.Add(ImageTypeErrorCode.FileStreamIsTooShort);
+                    return validationResult;
+                }
 
                 var buffer = new byte [longestSignature.Length];
                 fileStream.Read(buffer, 0, buffer.Length);
 
                 if (!ValidateSignature(buffer, imageType.HexSignatures))
-                    return new ImageTypeValidationResult(ImageTypeErrorCode.InvalidHexSignature);
+                {
+                    validationResult.Add(ImageTypeErrorCode.InvalidHexSignature);
+                    return validationResult;
+                }
 
-                return new ImageTypeValidationResult();
+                return validationResult;
             }
         }
 
