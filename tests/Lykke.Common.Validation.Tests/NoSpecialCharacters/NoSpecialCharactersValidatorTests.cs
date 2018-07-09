@@ -16,7 +16,7 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
         }
 
         [Theory]
-        [ClassData(typeof(WithoutSpecialCharacters))]
+        [ClassData(typeof(WithoutSpecialCharactersTestData))]
         public void Validate_WithoutSpecialCharacters_ReturnTrue(string input)
         {
             // Act
@@ -27,7 +27,7 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
         }
 
         [Theory]
-        [ClassData(typeof(WithSpecialCharacters))]
+        [ClassData(typeof(WithSpecialCharactersTestData))]
         public void Validate_WithSpecialCharacters_ReturnFalse(string input)
         {
             // Act
