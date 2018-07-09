@@ -35,5 +35,10 @@ namespace Lykke.Common.Validation
 
             _errorCodes.AddRange(errorCodes);
         }
+
+        public void Add(TEnum errorCode)
+        {
+            _errorCodes.Add(errorCode);
+        }
     }
 }

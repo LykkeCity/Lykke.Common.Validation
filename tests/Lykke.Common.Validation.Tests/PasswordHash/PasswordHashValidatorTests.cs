@@ -4,7 +4,7 @@ using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.PasswordHash.TestData;
 using Xunit;
 
-namespace Lykke.Common.Validation.Tests.PasswordHash.Base
+namespace Lykke.Common.Validation.Tests.PasswordHash
 {
     public class PasswordHashValidatorTests
     {
@@ -17,7 +17,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Base
 
         [Theory]
         [ClassData(typeof(HashIsValidSha256TestData))]
-        public void IsValid_HashIsValidSHA256Hash_ReturnTrue(string passwordHash)
+        public void Validate_HashIsValidSHA256Hash_ReturnTrue(string passwordHash)
         {
             // Act
             var result = _validator.Validate(passwordHash);
@@ -28,7 +28,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Base
 
         [Theory]
         [ClassData(typeof(HashIsInvalidTestData))]
-        public void IsValid_HashIsNotSHA256_ReturnFalse(string passwordHash)
+        public void Validate_HashIsNotSHA256_ReturnFalse(string passwordHash)
         {
             // Act
             var result = _validator.Validate(passwordHash);
@@ -40,7 +40,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash.Base
 
         [Theory]
         [ClassData(typeof(NullOrEmptyStringTestData))]
-        public void IsValid_NullOrEmpty_ReturnFalse(string passwordHash)
+        public void Validate_NullOrEmpty_ReturnFalse(string passwordHash)
         {
             // Act
             var result = _validator.Validate(passwordHash);
