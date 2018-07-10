@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.1</Version>
+    <Authors>Lykke</Authors>
+    <Company>Lykke</Company>
+    <Product>Lykke.Common.Validation</Product>
+    <Description>Lykke common validation tools and utilities</Description>
+    <AssemblyName>Lykke.Common.Validation</AssemblyName>
+    <PackageId>Lykke.Common.Validation</PackageId>
+    <PackageTags>Lykke Common Validation</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/LykkeCity/Lykke.Common.Validation</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/LykkeCity/Lykke.Common.Validation/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/14153330?v=3&amp;s=200</PackageIconUrl>
+    <RepositoryUrl>https://github.com/LykkeCity/Lykke.Common.Validation.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright 2018 (c) Lykke Corp. All rights reserved.</Copyright>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <NeutralLanguage>en-001</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="7.6.103" />
+    <PackageReference Include="Lykke.Common" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
+  </ItemGroup>
+</Project>
