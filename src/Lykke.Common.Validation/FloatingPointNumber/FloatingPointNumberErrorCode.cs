@@ -13,6 +13,6 @@
         /// <summary>
         ///     Input is not a floating point number.
         /// </summary>
-        NotFloaringPoint
+        NotFloatingPoint
     }
 }

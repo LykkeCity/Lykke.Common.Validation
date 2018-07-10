@@ -53,7 +53,7 @@ namespace Lykke.Common.Validation
         /// <exception cref="ArgumentException">Thrown if <typeparamref name="TEnum" /> is not Enum.</exception>
         protected ValidationResult(IEnumerable<TEnum> errorCodes): this()
         {
-            errorCodes.ForEach(Add);
+            errorCodes?.ForEach(Add);
         }
 
         /// <summary>

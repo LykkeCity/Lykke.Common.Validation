@@ -55,7 +55,7 @@ namespace Lykke.Common.Validation.ImageTypes
         /// <param name="fileName">File name.</param>
         /// <param name="fileStream">File stream data.</param>
         /// <returns>
-        ///     If <paramref name="fileName" /> extension is in valid extension provided to constructor.
+        ///     If <paramref name="fileName" /> extension is in valid extensions provided to constructor.
         ///     And <paramref name="fileStream" /> first bytes match valid bytes for provided file type, based on extension.
         ///     <see cref="ImageTypeValidationResult" /> does not contain any <see cref="ImageTypeErrorCode" /> errors.
         /// </returns>

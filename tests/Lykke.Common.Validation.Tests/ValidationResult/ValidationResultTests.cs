@@ -34,6 +34,7 @@ namespace Lykke.Common.Validation.Tests.ValidationResult
         public void DefaultConstructor_InvalidEnumType_ThrowsArgumentException()
         {
             // Assert
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.Throws<ArgumentException>(() => new InvalidTestValidationResult());
         }
 
@@ -41,6 +42,7 @@ namespace Lykke.Common.Validation.Tests.ValidationResult
         public void OneErrorConstructor_InvalidEnumType_ThrowsArgumentException()
         {
             // Assert
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.Throws<ArgumentException>(() => new InvalidTestValidationResult(new InvalidEnum()));
         }
 
@@ -48,6 +50,7 @@ namespace Lykke.Common.Validation.Tests.ValidationResult
         public void ErrorListConstructor_InvalidEnumType_ThrowsArgumentException()
         {
             // Assert
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.Throws<ArgumentException>(() =>
                 new InvalidTestValidationResult(new[] {new InvalidEnum(), new InvalidEnum()}));
         }

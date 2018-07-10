@@ -22,7 +22,7 @@
 
             return isFloatingPoint
                 ? new FloatingPointNumberValidationResult()
-                : new FloatingPointNumberValidationResult(FloatingPointNumberErrorCode.NotFloaringPoint);
+                : new FloatingPointNumberValidationResult(FloatingPointNumberErrorCode.NotFloatingPoint);
         }
     }
 }

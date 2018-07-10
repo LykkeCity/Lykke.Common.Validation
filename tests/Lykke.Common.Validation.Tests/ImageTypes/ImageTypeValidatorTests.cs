@@ -63,7 +63,6 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
         }
 
         [Test]
-        // TODO: Add check for bull or empty file name
         public void Validate_FileExtensionIsInvalid_ReturnFalse()
         {
             // Act
@@ -86,7 +85,6 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
         }
 
         [Test]
-        // TODO: Add check for FileStream null
         public void Validate_FileStreamIsNull_ReturnFalse()
         {
             // Act
@@ -98,7 +96,6 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
         }
 
         [Test]
-        // TODO: Add check for FileStream null
         public void Validate_FileStreamIsTooShort_ReturnFalse()
         {
             // Arrange

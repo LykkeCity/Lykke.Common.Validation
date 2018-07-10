@@ -9,7 +9,7 @@ namespace Lykke.Common.Validation.ImageTypes
     public interface IImageType
     {
         /// <summary>
-        ///     List of extension supported by image type.
+        ///     List of extensions supported by image type.
         /// </summary>
         IReadOnlyCollection<string> Extensions { get; }
 

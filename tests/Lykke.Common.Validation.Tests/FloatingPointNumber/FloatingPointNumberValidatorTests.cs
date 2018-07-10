@@ -36,7 +36,7 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(FloatingPointNumberErrorCode.NotFloaringPoint, result.ErrorCodes.First());
+            Assert.AreEqual(FloatingPointNumberErrorCode.NotFloatingPoint, result.ErrorCodes.First());
         }
 
         
