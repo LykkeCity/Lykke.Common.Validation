@@ -6,7 +6,7 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
     ///     Validates string does not contain special characters:
     ///     !@#$%^&amp;*()-_=+:;.,"'\/?&lt;&gt;|~[]{}`
     /// </summary>
-    internal class NoSpecialCharactersValidator
+    public class NoSpecialCharactersValidator
     {
         private static readonly char[] RestrictedCharacters =
         {
