@@ -3,7 +3,7 @@
     /// <summary>
     ///     Validates string is a floating point number.
     /// </summary>
-    internal class FloatingPointNumberValidator
+    public class FloatingPointNumberValidator
     {
         /// <summary>
         ///     Validates string is a floating point number.
