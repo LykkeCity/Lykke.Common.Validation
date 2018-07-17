@@ -5,8 +5,6 @@
     /// </summary>
     public class IsOnlyDigitsValidationResult : ValidationResult<IsOnlyDigitsErrorCode>
     {
-        public int MaxLength;
-
         /// <inheritdoc />
         public IsOnlyDigitsValidationResult()
         {
