@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Lykke.Common.Validation.Configuration;
 using NUnit.Framework;
 
@@ -12,7 +13,7 @@ namespace Lykke.Common.Validation.Tests.Configuration
             var configString = @"a\t[\u1337*a";
             var expetedChars = new[] {'a', '\t', '[', '\u1337', '*'};
 
-            var resultChars = configString.UnescapedStringToCharsArray();
+            var resultChars = ConfigurationHelpers.UnescapedStringToCharsArray(configString);
 
             resultChars.Should().BeEquivalentTo(expetedChars);
         }
@@ -22,9 +23,17 @@ namespace Lykke.Common.Validation.Tests.Configuration
         {
             var configString = string.Empty;
 
-            var resultChars = configString.UnescapedStringToCharsArray();
+            var resultChars = ConfigurationHelpers.UnescapedStringToCharsArray(configString);
 
             resultChars.Should().BeEmpty();
+        }
+
+        [Test]
+        public void UnescapedStringToCharsArray_NullProvided_ThrowsException()
+        {
+            Action action = () => ConfigurationHelpers.UnescapedStringToCharsArray(null);
+
+            action.Should().Throw<ArgumentNullException>();
         }
     }
 }

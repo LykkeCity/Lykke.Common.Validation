@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 
 namespace Lykke.Common.Validation.Configuration
 {

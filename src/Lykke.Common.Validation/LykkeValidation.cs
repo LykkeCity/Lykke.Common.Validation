@@ -3,18 +3,18 @@ using Lykke.Common.Validation.Configuration;
 
 namespace Lykke.Common.Validation
 {
-    /// <summary>
-    /// Provides static methods to operate with LykkeValidation configuration
-    /// </summary>
+    /// <summary> Provides static methods to operate with LykkeValidation configuration </summary>
     public static class LykkeValidation
     {
-        private static bool _isInitialized;
-
-        /// <summary>Initialize static configuration instance</summary>
-        /// <param name="configAction"></param>
+        /// <summary> Initialize static configuration instance </summary>
         public static void Initialize(Action<IValidationConfigurationExpression> configAction)
         {
-            if (_isInitialized)
+            if (configAction == null)
+            {
+                throw new ArgumentNullException(nameof(configAction));
+            }
+
+            if (Configuration != null)
             {
                 throw new InvalidOperationException($"{nameof(LykkeValidation)} is already initialized");
             }
@@ -22,11 +22,9 @@ namespace Lykke.Common.Validation
             var builder = new ValidationConfigurationBuilder();
             configAction.Invoke(builder);
             Configuration = builder.Build();
-
-            _isInitialized = true;
         }
 
-        /// <summary>Static configuration for performing validation</summary>
+        /// <summary> Static configuration for performing validation </summary>
         public static IValidationConfiguration Configuration { get; internal set; }
     }
 }

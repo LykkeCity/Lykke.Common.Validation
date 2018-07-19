@@ -16,8 +16,13 @@ namespace Lykke.Common.Validation.Configuration
 
         public void SetZeroWidthChars(IEnumerable<char> chars)
         {
-            AssertBuildIsNotFinished();
+            if (chars == null)
+            {
+                throw new ArgumentNullException(nameof(chars));
+            }
 
+            AssertBuildIsNotFinished();
+            
             Configuration.ZeroWidthChars = ImmutableArray.CreateRange(chars.Distinct());
         }
 
