@@ -6,6 +6,9 @@ namespace Lykke.Common.Validation
     /// <summary> Provides static methods to operate with LykkeValidation configuration </summary>
     public static class LykkeValidation
     {
+        /// <summary> Static configuration for performing validation </summary>
+        public static IValidationConfiguration Configuration { get; internal set; }
+
         /// <summary> Initialize static configuration instance </summary>
         public static void Initialize(Action<IValidationConfigurationExpression> configAction)
         {
@@ -23,8 +26,5 @@ namespace Lykke.Common.Validation
             configAction.Invoke(builder);
             Configuration = builder.Build();
         }
-
-        /// <summary> Static configuration for performing validation </summary>
-        public static IValidationConfiguration Configuration { get; internal set; }
     }
 }
