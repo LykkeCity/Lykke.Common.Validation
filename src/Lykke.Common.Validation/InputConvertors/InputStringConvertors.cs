@@ -8,7 +8,7 @@ namespace Lykke.Common.Validation.InputConvertors
     /// <inheritdoc />
     public class InputStringConvertors : IInputStringConvertors
     {
-        private const char NormalSpace = '\u0020';
+        private const string NormalSpace = "\u0020";
         private static readonly Regex MultipleSpacesRegex = new Regex("\\s+", RegexOptions.Compiled);
 
         internal readonly char[] ZeroWidthChars;
@@ -49,7 +49,7 @@ namespace Lykke.Common.Validation.InputConvertors
             }
 
             return MultipleSpacesRegex
-                .Replace(source, NormalSpace.ToString())
+                .Replace(source, NormalSpace)
                 .Trim();
         }
 
