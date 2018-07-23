@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using Lykke.Common.Validation.NoSpecialCharacters;
 using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.Helpers;
@@ -78,9 +79,6 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
         [Test]
         public void Constructor_ConfigActionIsNull_ThrowsException()
         {
-            // Arrange
-            const string expectedMessage = "Value cannot be null.\r\nParameter name: configAction";
-
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(
                 () =>
@@ -88,7 +86,7 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
                     // ReSharper disable once ObjectCreationAsStatement
                     new NoSpecialCharactersValidator(null);
                 });
-            Assert.AreEqual(expectedMessage, exception.Message);
+            exception.Message.Should().ContainAll("Value cannot be null.", "Parameter name: configAction");
         }
 
         [TestCase("a,b,c,d.", new[] {',', '.'})]
