@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Lykke.Common.Validation.FloatingPointNumber;
+﻿using Lykke.Common.Validation.FloatingPointNumber;
 using Lykke.Common.Validation.Tests.CommonTestData;
 using Lykke.Common.Validation.Tests.FloatingPointNumber.TestData;
+using Lykke.Common.Validation.Tests.Helpers;
 using NUnit.Framework;
 
 
@@ -36,7 +36,7 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(FloatingPointNumberErrorCode.NotFloatingPoint, result.ErrorCodes.First());
+            Assert.AreEqual("NotFloatingPoint", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         
@@ -48,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.FloatingPointNumber
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(FloatingPointNumberErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual("NullOrEmpty", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
     }
 }

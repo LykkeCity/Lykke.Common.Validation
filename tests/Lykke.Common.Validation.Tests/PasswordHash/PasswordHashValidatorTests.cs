@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Lykke.Common.Validation.PasswordHash;
+﻿using Lykke.Common.Validation.PasswordHash;
 using Lykke.Common.Validation.Tests.CommonTestData;
+using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.PasswordHash.TestData;
 using NUnit.Framework;
 
@@ -36,7 +36,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(PasswordHashErrorCode.NotSha256, result.ErrorCodes.First());
+            Assert.AreEqual("NotSha256", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         
@@ -48,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.PasswordHash
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(PasswordHashErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual("NullOrEmpty", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
     }
 }

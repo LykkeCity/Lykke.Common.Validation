@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using Lykke.Common.Validation.NoSpecialCharacters;
 using Lykke.Common.Validation.Tests.CommonTestData;
+using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.NoSpecialCharacters.TestData;
 using NUnit.Framework;
 
@@ -31,10 +31,11 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
 
             // Act
             var result = validator.Validate(input);
+            var errorCode = ValidationResultHelper.GetFirstErrorCodeName(result);
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(NoSpecialCharactersErrorCode.ContainsSpecialCharacters, result.ErrorCodes.First());
+            Assert.AreEqual("ContainsSpecialCharacters", errorCode);
         }
 
 
@@ -46,10 +47,11 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
 
             // Act
             var result = validator.Validate(input);
+            var errorCode = ValidationResultHelper.GetFirstErrorCodeName(result);
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(NoSpecialCharactersErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual("NullOrEmpty", errorCode);
         }
 
         [TestCase(new[] {'a', 'b', 'c'}, new[] {'c'})]
@@ -97,8 +99,11 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
             // Arrange
             var validator = new NoSpecialCharactersValidator(c => { c.SetAllowed(allowedCharacters); });
 
+            // Act
+            var result = validator.Validate(input);
+
             // Assert
-            Assert.True(validator.Validate(input).IsValid);
+            Assert.True(result.IsValid);
         }
 
         [TestCase("abcd", new[] {'a', 'c'})]
@@ -109,8 +114,11 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
             // Arrange
             var validator = new NoSpecialCharactersValidator(c => { c.SetRestricted(additionalRestrictedCharacters); });
 
+            // Act
+            var result = validator.Validate(input);
+
             // Assert
-            Assert.False(validator.Validate(input).IsValid);
+            Assert.False(result.IsValid);
         }
     }
 }

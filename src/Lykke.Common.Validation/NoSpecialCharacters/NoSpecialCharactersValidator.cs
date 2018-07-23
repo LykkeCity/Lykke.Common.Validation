@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Lykke.Common.Validation.NoSpecialCharacters
@@ -11,11 +12,9 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
         /// <summary>
         ///     Set of default restricted characters.
         /// </summary>
-        private static readonly char[] DefaultRestrictedCharacters =
-        {
+        private static readonly ImmutableHashSet<char> DefaultRestrictedCharacters = ImmutableHashSet.Create(
             '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '_', '=', ':', ';', '.', ',', '"', '\'', '\\',
-            '/', '|', '?', '<', '>', '~', '[', ']', '{', '}', '`'
-        };
+            '/', '|', '?', '<', '>', '~', '[', ']', '{', '}', '`');
 
         /// <summary>
         ///     Set of characters to be validated for.
@@ -24,7 +23,7 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
         ///     By default, equals to <see cref="DefaultRestrictedCharacters" />.
         ///     Could be modified with additional allowed and restricted characters through constructor with configuration.
         /// </summary>
-        private readonly char[] _restrictedCharacters;
+        private readonly ImmutableHashSet<char> _restrictedCharacters;
 
         /// <summary>
         ///     Constructs validator with default set of restricted characters.
@@ -53,10 +52,10 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
             var config = builder.Build();
 
             if (config.AllowedChars != null && config.AllowedChars.Count > 0)
-                _restrictedCharacters = _restrictedCharacters.Except(config.AllowedChars).ToArray();
+                _restrictedCharacters = _restrictedCharacters.Except(config.AllowedChars);
 
             if (config.RestrictedChars != null && config.RestrictedChars.Count > 0)
-                _restrictedCharacters = _restrictedCharacters.Union(config.RestrictedChars).ToArray();
+                _restrictedCharacters = _restrictedCharacters.Union(config.RestrictedChars);
         }
 
         /// <summary>
@@ -73,11 +72,7 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
             if (string.IsNullOrEmpty(input))
                 return new NoSpecialCharactersValidationResult(NoSpecialCharactersErrorCode.NullOrEmpty);
 
-            var isContainSpecialCharacters = input.Length > _restrictedCharacters.Length
-                ? _restrictedCharacters.Any(input.Contains)
-                : input.Any(_restrictedCharacters.Contains);
-
-            return isContainSpecialCharacters
+            return input.Any(_restrictedCharacters.Contains)
                 ? new NoSpecialCharactersValidationResult(NoSpecialCharactersErrorCode.ContainsSpecialCharacters)
                 : new NoSpecialCharactersValidationResult();
         }

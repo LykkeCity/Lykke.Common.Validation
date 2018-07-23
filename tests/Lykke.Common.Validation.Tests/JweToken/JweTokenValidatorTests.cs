@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Lykke.Common.Validation.JweToken;
+﻿using Lykke.Common.Validation.JweToken;
 using Lykke.Common.Validation.Tests.CommonTestData;
+using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.JweToken.TestData;
 using NUnit.Framework;
 
@@ -36,7 +36,7 @@ namespace Lykke.Common.Validation.Tests.JweToken
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(JweTokenErrorCode.NotJweToken, result.ErrorCodes.First());
+            Assert.AreEqual("NotJweToken", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         
@@ -48,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.JweToken
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(JweTokenErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual("NullOrEmpty", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
     }
 }
