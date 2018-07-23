@@ -1,22 +1,65 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace Lykke.Common.Validation.NoSpecialCharacters
 {
     /// <summary>
     ///     Validates string does not contain special characters:
-    ///     !@#$%^&amp;*()-_=+:;.,"'\/?&lt;&gt;|~[]{}`
     /// </summary>
     public class NoSpecialCharactersValidator
     {
-        private static readonly char[] RestrictedCharacters =
-        {
+        /// <summary>
+        ///     Set of default restricted characters.
+        /// </summary>
+        private static readonly ImmutableHashSet<char> DefaultRestrictedCharacters = ImmutableHashSet.Create(
             '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '_', '=', ':', ';', '.', ',', '"', '\'', '\\',
-            '/', '|', '?', '<', '>', '~', '[', ']', '{', '}', '`'
-        };
+            '/', '|', '?', '<', '>', '~', '[', ']', '{', '}', '`');
 
         /// <summary>
-        ///     Validates string does not contain special characters:
+        ///     Set of characters to be validated for.
+        ///     If input string contains any of these characters, validation result would be
+        ///     negative.
+        ///     By default, equals to <see cref="DefaultRestrictedCharacters" />.
+        ///     Could be modified with additional allowed and restricted characters through constructor with configuration.
+        /// </summary>
+        private readonly ImmutableHashSet<char> _restrictedCharacters;
+
+        /// <summary>
+        ///     Constructs validator with default set of restricted characters.
         ///     !@#$%^&amp;*()-_=+:;.,"'\/?&lt;&gt;|~[]{}`
+        /// </summary>
+        public NoSpecialCharactersValidator()
+        {
+            _restrictedCharacters = DefaultRestrictedCharacters;
+        }
+
+        /// <summary>
+        ///     Constructs validator with custom set of allowed and restricted characters.
+        /// </summary>
+        /// <param name="configAction">
+        ///     Delegate to configure validator. Used for setting allowed characters and add additional restricted characters.
+        /// </param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="configAction" /> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown if you set same characters for allowed and restricted.</exception>
+        public NoSpecialCharactersValidator(Action<INoSpecialCharactersConfigurationExpression> configAction) : this()
+        {
+            if (configAction == null)
+                throw new ArgumentNullException(nameof(configAction));
+
+            var builder = new NoSpecialCharactersConfigurationBuilder();
+            configAction(builder);
+            var config = builder.Build();
+
+            if (config.AllowedChars != null && config.AllowedChars.Count > 0)
+                _restrictedCharacters = _restrictedCharacters.Except(config.AllowedChars);
+
+            if (config.RestrictedChars != null && config.RestrictedChars.Count > 0)
+                _restrictedCharacters = _restrictedCharacters.Union(config.RestrictedChars);
+        }
+
+        /// <summary>
+        ///     Validates string does not contain special characters.
         /// </summary>
         /// <param name="input">String to validate.</param>
         /// <returns>
@@ -29,11 +72,7 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
             if (string.IsNullOrEmpty(input))
                 return new NoSpecialCharactersValidationResult(NoSpecialCharactersErrorCode.NullOrEmpty);
 
-            var isContainSpecialCharacters = input.Length > RestrictedCharacters.Length
-                ? RestrictedCharacters.Any(input.Contains)
-                : input.Any(RestrictedCharacters.Contains);
-
-            return isContainSpecialCharacters
+            return input.Any(_restrictedCharacters.Contains)
                 ? new NoSpecialCharactersValidationResult(NoSpecialCharactersErrorCode.ContainsSpecialCharacters)
                 : new NoSpecialCharactersValidationResult();
         }

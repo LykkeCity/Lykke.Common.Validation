@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Lykke.Common.Validation.IsOnlyDigits;
+﻿using Lykke.Common.Validation.IsOnlyDigits;
 using Lykke.Common.Validation.Tests.CommonTestData;
+using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.IsOnlyDigits.TestData;
 using NUnit.Framework;
 
@@ -34,7 +34,7 @@ namespace Lykke.Common.Validation.Tests.IsOnlyDigits
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(IsOnlyDigitsErrorCode.NotOnlyDigits, result.ErrorCodes.First());
+            Assert.AreEqual("NotOnlyDigits", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         
@@ -46,7 +46,7 @@ namespace Lykke.Common.Validation.Tests.IsOnlyDigits
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(IsOnlyDigitsErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual("NullOrEmpty", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
     }
 }

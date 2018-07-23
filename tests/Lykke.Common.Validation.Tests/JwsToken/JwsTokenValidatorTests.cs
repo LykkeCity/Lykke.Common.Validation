@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Lykke.Common.Validation.JwsToken;
+﻿using Lykke.Common.Validation.JwsToken;
 using Lykke.Common.Validation.Tests.CommonTestData;
+using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.JwsToken.TestData;
 using NUnit.Framework;
 
@@ -36,7 +36,7 @@ namespace Lykke.Common.Validation.Tests.JwsToken
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(JwsTokenErrorCode.NotJwsToken, result.ErrorCodes.First());
+            Assert.AreEqual("NotJwsToken", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         
@@ -48,7 +48,7 @@ namespace Lykke.Common.Validation.Tests.JwsToken
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(JwsTokenErrorCode.NullOrEmpty, result.ErrorCodes.First());
+            Assert.AreEqual("NullOrEmpty", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
     }
 }

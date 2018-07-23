@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using System.Linq;
 using Lykke.Common.Validation.ImageTypes;
+using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.ImageTypes.TestData;
 using NUnit.Framework;
 
@@ -56,7 +56,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(ImageTypeErrorCode.InvalidHexSignature, result.ErrorCodes.First());
+            Assert.AreEqual("InvalidHexSignature", ValidationResultHelper.GetFirstErrorCodeName(result));
 
             // Dispose
             dto.Stream?.Dispose();
@@ -70,7 +70,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(ImageTypeErrorCode.FileExtensionEmptyOrInvalid, result.ErrorCodes.First());
+            Assert.AreEqual("FileExtensionEmptyOrInvalid", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(ImageTypeErrorCode.FileNameNullOrWhitespace, result.ErrorCodes.First());
+            Assert.AreEqual("FileNameNullOrWhitespace", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(ImageTypeErrorCode.FileStreamIsNull, result.ErrorCodes.First());
+            Assert.AreEqual("FileStreamIsNull", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
             // Assert
             Assert.False(result.IsValid);
-            Assert.AreEqual(ImageTypeErrorCode.FileStreamIsTooShort, result.ErrorCodes.First());
+            Assert.AreEqual("FileStreamIsTooShort", ValidationResultHelper.GetFirstErrorCodeName(result));
         }
     }
 }
