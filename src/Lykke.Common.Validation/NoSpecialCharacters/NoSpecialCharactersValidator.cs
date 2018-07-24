@@ -25,6 +25,8 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
         /// </summary>
         private readonly ImmutableHashSet<char> _restrictedCharacters;
 
+        private readonly INoSpecialCharactersConfiguration _configuration = new NoSpecialCharactersConfiguration();
+
         /// <summary>
         ///     Constructs validator with default set of restricted characters.
         ///     !@#$%^&amp;*()-_=+:;.,"'\/?&lt;&gt;|~[]{}`
@@ -49,13 +51,13 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
 
             var builder = new NoSpecialCharactersConfigurationBuilder();
             configAction(builder);
-            var config = builder.Build();
+            _configuration = builder.Build();
 
-            if (config.AllowedChars != null && config.AllowedChars.Count > 0)
-                _restrictedCharacters = _restrictedCharacters.Except(config.AllowedChars);
+            if (_configuration.AllowedChars != null && _configuration.AllowedChars.Count > 0)
+                _restrictedCharacters = _restrictedCharacters.Except(_configuration.AllowedChars);
 
-            if (config.RestrictedChars != null && config.RestrictedChars.Count > 0)
-                _restrictedCharacters = _restrictedCharacters.Union(config.RestrictedChars);
+            if (_configuration.RestrictedChars != null && _configuration.RestrictedChars.Count > 0)
+                _restrictedCharacters = _restrictedCharacters.Union(_configuration.RestrictedChars);
         }
 
         /// <summary>
@@ -69,12 +71,18 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
         /// </returns>
         public NoSpecialCharactersValidationResult Validate(string input)
         {
+            var validResult = new NoSpecialCharactersValidationResult();
+
+            if (_configuration.IsNullAllowed && input == null ||
+                _configuration.IsEmptyAllowed && input == string.Empty)
+                return validResult;
+
             if (string.IsNullOrEmpty(input))
                 return new NoSpecialCharactersValidationResult(NoSpecialCharactersErrorCode.NullOrEmpty);
 
             return input.Any(_restrictedCharacters.Contains)
                 ? new NoSpecialCharactersValidationResult(NoSpecialCharactersErrorCode.ContainsSpecialCharacters)
-                : new NoSpecialCharactersValidationResult();
+                : validResult;
         }
     }
 }

@@ -11,10 +11,16 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
 
         public ImmutableHashSet<char> RestrictedChars { get; private set; }
 
+        public bool IsNullAllowed { get; private set; }
+
+        public bool IsEmptyAllowed { get; private set; }
+
         public NoSpecialCharactersConfiguration()
         {
             AllowedChars = ImmutableHashSet.Create<char>();
             RestrictedChars = ImmutableHashSet.Create<char>();
+            IsNullAllowed = false;
+            IsEmptyAllowed = false;
         }
 
         internal void SetAllowed(params char[] chars)
@@ -29,11 +35,22 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
             RestrictedChars = CreateSet(chars);
         }
 
+        internal void AllowNull()
+        {
+            IsNullAllowed = true;
+        }
+
+        internal void AllowEmpty()
+        {
+            IsEmptyAllowed = true;
+        }
+
         private void CheckForIntersect(IEnumerable<char> one, IEnumerable<char> two)
         {
             if (one != null && two != null &&
                 one.Intersect(two).Any())
-                throw new ArgumentException($"{nameof(AllowedChars)} should not contain characters from {nameof(RestrictedChars)}!");
+                throw new ArgumentException(
+                    $"{nameof(AllowedChars)} should not contain characters from {nameof(RestrictedChars)}!");
         }
 
         private static ImmutableHashSet<char> CreateSet(params char[] chars)

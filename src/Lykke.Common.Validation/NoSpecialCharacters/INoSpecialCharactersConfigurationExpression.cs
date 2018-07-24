@@ -22,5 +22,15 @@
         /// </summary>
         /// <param name="chars">Restricted characters.</param>
         void SetRestricted(params char[] chars);
+
+        /// <summary>
+        ///     Allow Null to be considered as valid.
+        /// </summary>
+        void AllowNull();
+
+        /// <summary>
+        ///     Allow Empty string to be considered as valid.
+        /// </summary>
+        void AllowEmpty();
     }
 }

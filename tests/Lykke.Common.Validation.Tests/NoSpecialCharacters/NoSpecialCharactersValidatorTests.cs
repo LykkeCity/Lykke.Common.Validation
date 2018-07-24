@@ -114,9 +114,67 @@ namespace Lykke.Common.Validation.Tests.NoSpecialCharacters
 
             // Act
             var result = validator.Validate(input);
+            var errorCode = ValidationResultHelper.GetFirstErrorCodeName(result);
 
             // Assert
             Assert.False(result.IsValid);
+            Assert.AreEqual("ContainsSpecialCharacters", errorCode);
+        }
+
+        [TestCase(null)]
+        public void Validate_NullWhenNullIsAllowed_ReturnsTrue(string input)
+        {
+            // Arrange
+            var validator = new NoSpecialCharactersValidator(c => { c.AllowNull(); });
+
+            // Act
+            var result = validator.Validate(input);
+
+            // Assert
+            Assert.True(result.IsValid);
+        }
+
+        [TestCase("")]
+        public void Validate_EmptyStringWhenEmptyStringIsAllowed_ReturnsTrue(string input)
+        {
+            // Arrange
+            var validator = new NoSpecialCharactersValidator(c => { c.AllowEmpty(); });
+
+            // Act
+            var result = validator.Validate(input);
+
+            // Assert
+            Assert.True(result.IsValid);
+        }
+
+        [TestCase(null)]
+        public void Validate_NullWhenEmptyStringIsAllowed_ReturnsFalse(string input)
+        {
+            // Arrange
+            var validator = new NoSpecialCharactersValidator(c => { c.AllowEmpty(); });
+
+            // Act
+            var result = validator.Validate(input);
+            var errorCode = ValidationResultHelper.GetFirstErrorCodeName(result);
+
+            // Assert
+            Assert.False(result.IsValid);
+            Assert.AreEqual("NullOrEmpty", errorCode);
+        }       
+        
+        [TestCase("")]
+        public void Validate_EmptyStringWhenNullIsAllowed_ReturnsFalse(string input)
+        {
+            // Arrange
+            var validator = new NoSpecialCharactersValidator(c => { c.AllowNull(); });
+
+            // Act
+            var result = validator.Validate(input);
+            var errorCode = ValidationResultHelper.GetFirstErrorCodeName(result);
+
+            // Assert
+            Assert.False(result.IsValid);
+            Assert.AreEqual("NullOrEmpty", errorCode);
         }
     }
 }

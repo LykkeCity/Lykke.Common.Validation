@@ -14,6 +14,16 @@
             _configuration.SetRestricted(chars);
         }
 
+        public void AllowNull()
+        {
+            _configuration.AllowNull();
+        }
+
+        public void AllowEmpty()
+        {
+            _configuration.AllowEmpty();
+        }
+
         public INoSpecialCharactersConfiguration Build()
         {
             return _configuration;

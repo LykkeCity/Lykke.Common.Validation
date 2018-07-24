@@ -23,5 +23,15 @@ namespace Lykke.Common.Validation.NoSpecialCharacters
         ///     <see cref="NoSpecialCharactersValidator" />.
         /// </summary>
         ImmutableHashSet<char> RestrictedChars { get; }
+
+        /// <summary>
+        ///     Indicates Null is a valid value.
+        /// </summary>
+        bool IsNullAllowed { get; }
+
+        /// <summary>
+        ///     Indicates Empty string is a valid value.
+        /// </summary>
+        bool IsEmptyAllowed { get; }
     }
 }
