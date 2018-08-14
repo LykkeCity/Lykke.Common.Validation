@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -34,17 +36,32 @@ namespace Lykke.Common.Validation.ImageTypes
         ///     List of valid file types.
         ///     Available extensions:
         ///     ".jpg", ".jpeg", ".png", ".gif", ".bmp"
-        ///     Any other types will be ignored.
+        ///     Any other extensions will throw <see cref="ArgumentException"/>.
         /// </param>
+        /// <exception cref="ArgumentException">Thrown when specified extension is not supported.</exception>
         public ImageTypeValidator(params string[] imageExtensions)
         {
             if (imageExtensions == null || imageExtensions.Length == 0)
+            {
                 _imageTypes = DefaultImageTypes;
+            }
             else
+            {
                 foreach (var extension in imageExtensions)
+                {
+                    var lowerExtension = ToLower(extension);
+
                     if (!string.IsNullOrWhiteSpace(extension) &&
-                        DefaultImageTypes.TryGetValue(extension, out var imageType))
-                        _imageTypes.Add(extension, imageType);
+                        DefaultImageTypes.TryGetValue(lowerExtension, out var imageType))
+                    {
+                        _imageTypes.Add(lowerExtension, imageType);
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Extension: \"{extension}\" is not supported!");
+                    }
+                }
+            }
 
             AllowedExtensions = string.Join(", ", _imageTypes.Keys);
         }
@@ -61,8 +78,7 @@ namespace Lykke.Common.Validation.ImageTypes
         /// </returns>
         public ImageTypeValidationResult Validate(string fileName, Stream fileStream)
         {
-            var validationResult = new ImageTypeValidationResult();
-            validationResult.AllowedExtensions = AllowedExtensions;
+            var validationResult = new ImageTypeValidationResult {AllowedExtensions = AllowedExtensions};
 
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -119,7 +135,7 @@ namespace Lykke.Common.Validation.ImageTypes
 
         private static string GetExtension(string fileName)
         {
-            return string.IsNullOrWhiteSpace(fileName) ? string.Empty : Path.GetExtension(fileName);
+            return string.IsNullOrWhiteSpace(fileName) ? string.Empty : ToLower(Path.GetExtension(fileName));
         }
 
         private static IDictionary<string, IImageType> InitDefaultImageTypes()
@@ -128,9 +144,14 @@ namespace Lykke.Common.Validation.ImageTypes
 
             foreach (var imageType in DefaultImageTypesList)
             foreach (var extension in imageType.Extensions)
-                defaultImageTypes.Add(extension, imageType);
+                defaultImageTypes.Add(ToLower(extension), imageType);
 
             return defaultImageTypes;
+        }
+
+        private static string ToLower(string input)
+        {
+            return string.IsNullOrEmpty(input) ? string.Empty : input.ToLower(CultureInfo.InvariantCulture);
         }
     }
 }
