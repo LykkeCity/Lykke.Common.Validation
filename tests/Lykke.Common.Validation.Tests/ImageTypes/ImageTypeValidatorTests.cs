@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using FluentAssertions;
 using Lykke.Common.Validation.ImageTypes;
 using Lykke.Common.Validation.Tests.Helpers;
 using Lykke.Common.Validation.Tests.ImageTypes.TestData;
@@ -16,7 +18,6 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
 
         private readonly ImageTypeValidator _validator;
 
-        
         [TestCaseSource(typeof(ValidFileTestData))]
         public void Validate_ValidFile_ReturnTrue(
             ImageTypeTestDataDto dto)
@@ -31,7 +32,6 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
             dto.Stream?.Dispose();
         }
 
-        
         [TestCaseSource(typeof(ValidationContextTestData))]
         public void Validate_InvalidResult_HasAllowedExtensionsValidationContext(string[] allowedExtensions)
         {
@@ -45,7 +45,6 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
             var expected = string.Join(", ", allowedExtensions);
             Assert.AreEqual(expected, result.AllowedExtensions);
         }
-
         
         [TestCaseSource(typeof(InvalidFileSignatureTestData))]
         public void Validate_FileHasInvalidSignature_ReturnFalse(
@@ -107,6 +106,38 @@ namespace Lykke.Common.Validation.Tests.ImageTypes
             // Assert
             Assert.False(result.IsValid);
             Assert.AreEqual("FileStreamIsTooShort", ValidationResultHelper.GetFirstErrorCodeName(result));
+        }
+
+        [Test]
+        [Combinatorial]
+        public void Validate_DifferentCombinationsOfConstructorAndFileExtension_ReturnTrue(
+            [Values(null, ".PNG", ".png")] string constructorExtension,
+            [Values("TEST.png", "TEST.PNG")] string fileName)
+        {
+            // Arrange
+            // null means calling constructor without providing any extensions.
+            var validator = constructorExtension == null ? new ImageTypeValidator() : new ImageTypeValidator(constructorExtension);
+
+            // stream for .png image.
+            var stream = new MemoryStream(new byte[]
+                {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x00});
+
+            // Act
+            var result = validator.Validate(fileName, stream);
+
+            // Assert
+            Assert.True(result.IsValid);
+        }
+
+        [Test]
+        public void Constructor_WithUnsupportedExtension_ThrowsException([Values(null, ".exe")] string unsupportedException)
+        {
+            // Act
+            // ReSharper disable once ObjectCreationAsStatement
+            Action action = () => new ImageTypeValidator(unsupportedException);
+
+            // Assert
+            action.Should().Throw<ArgumentException>();
         }
     }
 }
